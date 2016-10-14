@@ -1,10 +1,10 @@
 ---
 prelude: >
-    Improved configuration options for glance_store. Please
+    Improved configuration options for subject_store. Please
     refer to the ``other`` section for more information.
 
 other:
-  - The glance_store configuration options have been
+  - The subject_store configuration options have been
     improved with detailed help texts, defaults for
     sample configuration files, explicit choices
     of values for operators to choose from, and a

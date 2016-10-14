@@ -202,9 +202,9 @@ as the suffix delimited by an underscore (where N is specified by
 
 Example: if the seed is set to 3 and swift_store_container = ``subject``, then
 an subject with UUID ``fdae39a1-bac5-4238-aba4-69bcc726e848`` would be placed in
-the container ``glance_fda``. All dashes in the UUID are included when
+the container ``subject_fda``. All dashes in the UUID are included when
 creating the container name but do not count toward the character limit, so
-when N=10 the container name would be ``glance_fdae39a1-ba.``
+when N=10 the container name would be ``subject_fdae39a1-ba.``
 
 Possible values:
     * If using single container, this configuration option can be any string
@@ -466,7 +466,7 @@ def swift_retry_iter(resp_iter, length, store, location, manager):
     retries = 0
     bytes_read = 0
 
-    while retries <= store.conf.glance_store.swift_store_retry_get_count:
+    while retries <= store.conf.subject_store.swift_store_retry_get_count:
         try:
             for chunk in resp_iter:
                 yield chunk
@@ -477,15 +477,15 @@ def swift_retry_iter(resp_iter, length, store, location, manager):
                         % encodeutils.exception_to_unicode(e))
 
         if bytes_read != length:
-            if retries == store.conf.glance_store.swift_store_retry_get_count:
+            if retries == store.conf.subject_store.swift_store_retry_get_count:
                 # terminate silently and let higher level decide
                 LOG.error(_LE("Stopping Swift retries after %d "
                               "attempts") % retries)
                 break
             else:
                 retries += 1
-                glance_conf = store.conf.glance_store
-                retry_count = glance_conf.swift_store_retry_get_count
+                subject_conf = store.conf.subject_store
+                retry_count = subject_conf.swift_store_retry_get_count
                 LOG.info(_LI("Retrying Swift connection "
                              "(%(retries)d/%(max_retries)d) with "
                              "range=%(start)d-%(end)d"),
@@ -549,7 +549,7 @@ class StoreLocation(location.StoreLocation):
         if not credentials_included:
             # Used only in case of an add
             # Get the current store from config
-            store = self.conf.glance_store.default_swift_reference
+            store = self.conf.subject_store.default_swift_reference
 
             return '%s://%s/%s/%s' % ('swift+config', store, container, obj)
         if self.scheme == 'swift+config':
@@ -704,7 +704,7 @@ def Store(conf):
     except cfg.DuplicateOptError:
         pass
 
-    if conf.glance_store.swift_store_multi_tenant:
+    if conf.subject_store.swift_store_multi_tenant:
         return MultiTenantStore(conf)
     return SingleTenantStore(conf)
 
@@ -729,19 +729,19 @@ class BaseStore(driver.Store):
         return ('swift+https', 'swift', 'swift+http', 'swift+config')
 
     def configure(self, re_raise_bsc=False):
-        glance_conf = self.conf.glance_store
+        subject_conf = self.conf.subject_store
         _obj_size = self._option_get('swift_store_large_object_size')
         self.large_object_size = _obj_size * ONE_MB
         _chunk_size = self._option_get('swift_store_large_object_chunk_size')
         self.large_object_chunk_size = _chunk_size * ONE_MB
-        self.admin_tenants = glance_conf.swift_store_admin_tenants
-        self.region = glance_conf.swift_store_region
-        self.service_type = glance_conf.swift_store_service_type
-        self.conf_endpoint = glance_conf.swift_store_endpoint
-        self.endpoint_type = glance_conf.swift_store_endpoint_type
-        self.insecure = glance_conf.swift_store_auth_insecure
-        self.ssl_compression = glance_conf.swift_store_ssl_compression
-        self.cacert = glance_conf.swift_store_cacert
+        self.admin_tenants = subject_conf.swift_store_admin_tenants
+        self.region = subject_conf.swift_store_region
+        self.service_type = subject_conf.swift_store_service_type
+        self.conf_endpoint = subject_conf.swift_store_endpoint
+        self.endpoint_type = subject_conf.swift_store_endpoint_type
+        self.insecure = subject_conf.swift_store_auth_insecure
+        self.ssl_compression = subject_conf.swift_store_ssl_compression
+        self.cacert = subject_conf.swift_store_cacert
         if swiftclient is None:
             msg = _("Missing dependency python_swiftclient.")
             raise exceptions.BadStoreConfiguration(store_name="swift",
@@ -774,7 +774,7 @@ class BaseStore(driver.Store):
         location = location.store_location
         # initialize manager to receive valid connections
         allow_retry = \
-            self.conf.glance_store.swift_store_retry_get_count > 0
+            self.conf.subject_store.swift_store_retry_get_count > 0
         with get_manager_for_store(self, location, context,
                                    allow_reauth=allow_retry) as manager:
             (resp_headers, resp_body) = self._get_object(location,
@@ -805,7 +805,7 @@ class BaseStore(driver.Store):
             return 0
 
     def _option_get(self, param):
-        result = getattr(self.conf.glance_store, param)
+        result = getattr(self.conf.subject_store, param)
         if not result:
             reason = (_("Could not find %(param)s in configuration options.")
                       % param)
@@ -1034,7 +1034,7 @@ class BaseStore(driver.Store):
             connection.head_container(container)
         except swiftclient.ClientException as e:
             if e.http_status == http_client.NOT_FOUND:
-                if self.conf.glance_store.swift_store_create_container_on_put:
+                if self.conf.subject_store.swift_store_create_container_on_put:
                     try:
                         msg = (_LI("Creating swift container %(container)s") %
                                {'container': container})
@@ -1109,7 +1109,7 @@ class SingleTenantStore(BaseStore):
         super(SingleTenantStore, self).configure(re_raise_bsc=re_raise_bsc)
 
     def configure_add(self):
-        default_ref = self.conf.glance_store.default_swift_reference
+        default_ref = self.conf.subject_store.default_swift_reference
         default_swift_reference = self.ref_params.get(default_ref)
         if default_swift_reference:
             self.auth_address = default_swift_reference.get('auth_address')
@@ -1122,7 +1122,7 @@ class SingleTenantStore(BaseStore):
             self.scheme = 'swift+http'
         else:
             self.scheme = 'swift+https'
-        self.container = self.conf.glance_store.swift_store_container
+        self.container = self.conf.subject_store.swift_store_container
         self.auth_version = default_swift_reference.get('auth_version')
         self.user = default_swift_reference.get('user')
         self.key = default_swift_reference.get('key')
@@ -1159,14 +1159,14 @@ class SingleTenantStore(BaseStore):
 
         examples:
             single-container mode:  'subject'
-            multiple-container mode: 'glance_3a1' for subject uuid 3A1xxxxxxx...
+            multiple-container mode: 'subject_3a1' for subject uuid 3A1xxxxxxx...
 
         :param subject_id: UUID of subject
         :param default_subject_container: container name from
                ``swift_store_container``
         """
         seed_num_chars = \
-            self.conf.glance_store.swift_store_multiple_containers_seed
+            self.conf.subject_store.swift_store_multiple_containers_seed
         if seed_num_chars is None \
                 or seed_num_chars < 0 or seed_num_chars > 32:
             reason = _("An integer value between 0 and 32 is required for"
@@ -1265,7 +1265,7 @@ class MultiTenantStore(BaseStore):
     EXAMPLE_URL = "swift://<SWIFT_URL>/<CONTAINER>/<FILE>"
 
     def _get_endpoint(self, context):
-        self.container = self.conf.glance_store.swift_store_container
+        self.container = self.conf.subject_store.swift_store_container
         if context is None:
             reason = _("Multi-tenant Swift storage requires a context.")
             raise exceptions.BadStoreConfiguration(store_name="swift",
@@ -1358,7 +1358,7 @@ class MultiTenantStore(BaseStore):
     def init_client(self, location, context=None):
         # read client parameters from config files
         ref_params = sutils.SwiftParams(self.conf).params
-        default_ref = self.conf.glance_store.default_swift_reference
+        default_ref = self.conf.subject_store.default_swift_reference
         default_swift_reference = ref_params.get(default_ref)
         if not default_swift_reference:
             reason = _("default_swift_reference %s is "
@@ -1476,7 +1476,7 @@ def get_manager_for_store(store, store_location,
     elif store.__class__ == MultiTenantStore:
         # if global toggle is turned off then do not allow re-authentication
         # with trusts
-        if not store.conf.glance_store.swift_store_use_trusts:
+        if not store.conf.subject_store.swift_store_use_trusts:
             allow_reauth = False
         return connection_manager.MultiTenantConnectionManager(
             store, store_location, context, allow_reauth)

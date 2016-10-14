@@ -4,7 +4,7 @@ prelude: >
     generating configs. More info in ``Upgrade Notes``
     and ``Bug Fixes`` section.
 upgrade:
-  - This version of glance_store will result in Glance
+  - This version of subject_store will result in Glance
     generating the configs in a sorted (deterministic)
     order. So, preferably store releases on or after this
     should be used for generating any new configs if the

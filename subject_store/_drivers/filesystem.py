@@ -273,12 +273,12 @@ class Store(subject_store.driver.Store):
         :datadir is a directory path in which subject writes subject files.
         """
 
-        if self.conf.glance_store.filesystem_store_file_perm <= 0:
+        if self.conf.subject_store.filesystem_store_file_perm <= 0:
             return
 
         try:
             mode = os.stat(datadir)[stat.ST_MODE]
-            perm = int(str(self.conf.glance_store.filesystem_store_file_perm),
+            perm = int(str(self.conf.subject_store.filesystem_store_file_perm),
                        8)
             if perm & stat.S_IRWXO > 0:
                 if not mode & stat.S_IXOTH:
@@ -378,16 +378,16 @@ class Store(subject_store.driver.Store):
         this method. If the store was not able to successfully configure
         itself, it should raise `exceptions.BadStoreConfiguration`
         """
-        if not (self.conf.glance_store.filesystem_store_datadir or
-                self.conf.glance_store.filesystem_store_datadirs):
+        if not (self.conf.subject_store.filesystem_store_datadir or
+                self.conf.subject_store.filesystem_store_datadirs):
             reason = (_("Specify at least 'filesystem_store_datadir' or "
                         "'filesystem_store_datadirs' option"))
             LOG.error(reason)
             raise exceptions.BadStoreConfiguration(store_name="filesystem",
                                                    reason=reason)
 
-        if (self.conf.glance_store.filesystem_store_datadir and
-                self.conf.glance_store.filesystem_store_datadirs):
+        if (self.conf.subject_store.filesystem_store_datadir and
+                self.conf.subject_store.filesystem_store_datadirs):
 
             reason = (_("Specify either 'filesystem_store_datadir' or "
                         "'filesystem_store_datadirs' option"))
@@ -395,8 +395,8 @@ class Store(subject_store.driver.Store):
             raise exceptions.BadStoreConfiguration(store_name="filesystem",
                                                    reason=reason)
 
-        if self.conf.glance_store.filesystem_store_file_perm > 0:
-            perm = int(str(self.conf.glance_store.filesystem_store_file_perm),
+        if self.conf.subject_store.filesystem_store_file_perm > 0:
+            perm = int(str(self.conf.subject_store.filesystem_store_file_perm),
                        8)
             if not perm & stat.S_IRUSR:
                 reason = _LE("Specified an invalid "
@@ -410,13 +410,13 @@ class Store(subject_store.driver.Store):
 
         self.multiple_datadirs = False
         directory_paths = set()
-        if self.conf.glance_store.filesystem_store_datadir:
-            self.datadir = self.conf.glance_store.filesystem_store_datadir
+        if self.conf.subject_store.filesystem_store_datadir:
+            self.datadir = self.conf.subject_store.filesystem_store_datadir
             directory_paths.add(self.datadir)
         else:
             self.multiple_datadirs = True
             self.priority_data_map = {}
-            for datadir in self.conf.glance_store.filesystem_store_datadirs:
+            for datadir in self.conf.subject_store.filesystem_store_datadirs:
                 (datadir_path,
                  priority) = self._get_datadir_path_and_priority(datadir)
                 priority_paths = self.priority_data_map.setdefault(
@@ -431,7 +431,7 @@ class Store(subject_store.driver.Store):
 
         self._create_subject_directories(directory_paths)
 
-        metadata_file = self.conf.glance_store.filesystem_store_metadata_file
+        metadata_file = self.conf.subject_store.filesystem_store_metadata_file
         if metadata_file:
             self._validate_metadata(metadata_file)
 
@@ -705,8 +705,8 @@ class Store(subject_store.driver.Store):
                    'filepath': filepath,
                    'checksum_hex': checksum_hex})
 
-        if self.conf.glance_store.filesystem_store_file_perm > 0:
-            perm = int(str(self.conf.glance_store.filesystem_store_file_perm),
+        if self.conf.subject_store.filesystem_store_file_perm > 0:
+            perm = int(str(self.conf.subject_store.filesystem_store_file_perm),
                        8)
             try:
                 os.chmod(filepath, perm)

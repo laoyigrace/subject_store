@@ -1,9 +1,9 @@
 ---
 prelude: >
-    glance_store._drivers.s3 removed from tree.
+    subject_store._drivers.s3 removed from tree.
 upgrade:
   - The S3 driver has been removed completely from the
-    glance_store source tree. All environments running
+    subject_store source tree. All environments running
     and (or) using this s3-driver piece of code and have
     not been migrated will stop working after the upgrade.
     We recommend you use a different storage backend that

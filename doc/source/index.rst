@@ -1,10 +1,10 @@
-glance_store
+subject_store
 ============
 
-The glance_store library supports the creation, deletion and gather of data
+The subject_store library supports the creation, deletion and gather of data
 assets from/to a set of several, different, storage technologies.
 
-glance_store Manual Pages
+subject_store Manual Pages
 =========================
 
 .. toctree::
@@ -31,32 +31,32 @@ Release Notes
 
 * Updated from global requirements
 * Imported Translations from Zanata
-* ATTN: After upgrading to glance_store 0.10.1 store options defined in config files under [DEFAULT] section will not work. Logic taking them was removed after deprecation period.
+* ATTN: After upgrading to subject_store 0.10.1 store options defined in config files under [DEFAULT] section will not work. Logic taking them was removed after deprecation period.
 
 * be3d7a6 Remove useless config.py file
 * 1517275_: vmware: check for response body in error conditions
 * 1323975_: remove default=None for config options
-* d59254e: Remove deprecated glance_store opts from default section
+* d59254e: Remove deprecated subject_store opts from default section
 * 1501443_: Improving GlanceStoreException
 * 1502332_: '_' is used by i18n
 * cc36d53: VMware: Fix missing space in error message
 * c2b8702: Handle swift store's optional dependency
 * 1485792_: Catch InvalidURL when requesting store size
 
-.. _1517275: https://bugs.launchpad.net/glance-store/+bug/1517275
-.. _1323975: https://bugs.launchpad.net/glance/+bug/1323975
-.. _1501443: https://bugs.launchpad.net/glance-store/+bug/1501443
-.. _1502332: https://bugs.launchpad.net/glance-store/+bug/1502332
-.. _1485792: https://bugs.launchpad.net/glance-store/+bug/1485792
+.. _1517275: https://bugs.launchpad.net/subject-store/+bug/1517275
+.. _1323975: https://bugs.launchpad.net/subject/+bug/1323975
+.. _1501443: https://bugs.launchpad.net/subject-store/+bug/1501443
+.. _1502332: https://bugs.launchpad.net/subject-store/+bug/1502332
+.. _1485792: https://bugs.launchpad.net/subject-store/+bug/1485792
 
 0.9.0
 -----
 
 * s3-proxy-support_: Proxy support to S3 Store
-* rados-timeout_: Better handling of glance-api connections to rbd store
+* rados-timeout_: Better handling of subject-api connections to rbd store
 
-.. _s3-proxy-support: https://blueprints.launchpad.net/glance/+spec/http-proxy-support-for-s3
-.. _rados-timeout: https://bugs.launchpad.net/glance-store/+bug/1469246
+.. _s3-proxy-support: https://blueprints.launchpad.net/subject/+spec/http-proxy-support-for-s3
+.. _rados-timeout: https://bugs.launchpad.net/subject-store/+bug/1469246
 
 
 0.6.0
@@ -67,7 +67,7 @@ Release Notes
 * 1454695_: Sync with global-requirements
 * Handle optional dependency in vmware store
 
-.. _1454695: https://bugs.launchpad.net/glance-store/+bug/1454695
+.. _1454695: https://bugs.launchpad.net/subject-store/+bug/1454695
 
 0.5.0
 -----
@@ -78,23 +78,23 @@ Release Notes
 * 1422699_: Propagate BadStoreConfiguration to library user
 * Initialize vmware session during store creation
 
-.. _1449639: https://bugs.launchpad.net/glance-store/+bug/1449639
-.. _1444663: https://bugs.launchpad.net/glance-store/+bug/1444663
-.. _1428257: https://bugs.launchpad.net/glance-store/+bug/1428257
-.. _1422699: https://bugs.launchpad.net/glance-store/+bug/1422699
+.. _1449639: https://bugs.launchpad.net/subject-store/+bug/1449639
+.. _1444663: https://bugs.launchpad.net/subject-store/+bug/1444663
+.. _1428257: https://bugs.launchpad.net/subject-store/+bug/1428257
+.. _1422699: https://bugs.launchpad.net/subject-store/+bug/1422699
 
 0.4.0
 -----
 * Deprecate the gridfs store
-* Use oslo_config.cfg.ConfigOpts in glance_store
+* Use oslo_config.cfg.ConfigOpts in subject_store
 * 1426767_: Make dependency on boto entirely conditional
 * 1429785_: Fix timeout during upload from slow resource
 * 1418396_: Throw NotFound exception when template is gone
 * Correct such logic in store.get() when chunk_size param provided
 
-.. _1426767: https://bugs.launchpad.net/glance-store/+bug/1426767
-.. _1429785: https://bugs.launchpad.net/glance-store/+bug/1429785
-.. _1418396: https://bugs.launchpad.net/glance-store/+bug/1418396
+.. _1426767: https://bugs.launchpad.net/subject-store/+bug/1426767
+.. _1429785: https://bugs.launchpad.net/subject-store/+bug/1429785
+.. _1418396: https://bugs.launchpad.net/subject-store/+bug/1418396
 
 0.3.0
 -----
@@ -108,7 +108,7 @@ Release Notes
 * 1425617_: Support for deleting subjects stored as SLO in Swift
 * Enable DRIVER_REUSABLE for vmware store
 
-.. _1425617: https://bugs.launchpad.net/glance-store/+bug/1425617
+.. _1425617: https://bugs.launchpad.net/subject-store/+bug/1425617
 
 0.1.12
 ------
@@ -136,18 +136,18 @@ Release Notes
     1. If there is only one mountpoint-
     {
       "id": "f0781415-cf81-47cd-8860-b83f9c2a415c",
-      "mountpoint": "/var/lib/glance/subjects/"
+      "mountpoint": "/var/lib/subject/subjects/"
     }
 
     2. If there are more than one mountpoints-
     [
       {
         "id": "f0781415-cf81-47cd-8860-b83f9c2a415c",
-        "mountpoint": "/var/lib/glance/subjects1/"
+        "mountpoint": "/var/lib/subject/subjects1/"
       },
       {
         "id": "asd81415-cf81-47cd-8860-b83f9c2a415c",
-        "mountpoint": "/var/lib/glance/subjects2/"
+        "mountpoint": "/var/lib/subject/subjects2/"
       }
     ]
 
@@ -162,22 +162,22 @@ Release Notes
   containers in single-tenant mode in order to avoid swift rate limiting on a
   single container.
 * Remove deprecated options
-* Correct GlanceStoreException to provide valid message - glance_store
+* Correct GlanceStoreException to provide valid message - subject_store
 * 1350010_: VMware store: Re-use api session token
 
-.. _1402354: https://bugs.launchpad.net/glance-store/+bug/1402354
-.. _1413852: https://bugs.launchpad.net/glance-store/+bug/1413852
-.. _1401778: https://bugs.launchpad.net/glance-store/+bug/1401778
-.. _1375857: https://bugs.launchpad.net/glance-store/+bug/1375857
-.. _1379798: https://bugs.launchpad.net/glance-store/+bug/1379798
-.. _1350010: https://bugs.launchpad.net/glance-store/+bug/1350010
+.. _1402354: https://bugs.launchpad.net/subject-store/+bug/1402354
+.. _1413852: https://bugs.launchpad.net/subject-store/+bug/1413852
+.. _1401778: https://bugs.launchpad.net/subject-store/+bug/1401778
+.. _1375857: https://bugs.launchpad.net/subject-store/+bug/1375857
+.. _1379798: https://bugs.launchpad.net/subject-store/+bug/1379798
+.. _1350010: https://bugs.launchpad.net/subject-store/+bug/1350010
 
 0.0.1a1
 -------
 
-* Initial release of glance_store_.
+* Initial release of subject_store_.
 
-.. _glance_store: https://wiki.openstack.org/wiki/Glance/Store
+.. _subject_store: https://wiki.openstack.org/wiki/Glance/Store
 
 Indices and tables
 ==================

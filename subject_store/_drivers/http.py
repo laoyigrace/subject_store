@@ -317,9 +317,9 @@ class Store(subject_store.driver.Store):
     def _get_response(self, location, verb):
         if not hasattr(self, 'session'):
             self.session = requests.Session()
-        ca_bundle = self.conf.glance_store.https_ca_certificates_file
-        disable_https = self.conf.glance_store.https_insecure
+        ca_bundle = self.conf.subject_store.https_ca_certificates_file
+        disable_https = self.conf.subject_store.https_insecure
         self.session.verify = ca_bundle if ca_bundle else not disable_https
-        self.session.proxies = self.conf.glance_store.http_proxy_information
+        self.session.proxies = self.conf.subject_store.http_proxy_information
         return self.session.request(verb, location.get_uri(), stream=True,
                                     allow_redirects=False)

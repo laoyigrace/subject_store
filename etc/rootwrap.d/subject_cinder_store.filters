@@ -1,4 +1,4 @@
-# glance-rootwrap command filters for glance cinder store
+# subject-rootwrap command filters for subject cinder store
 # This file should be owned by (and only-writeable by) the root user
 
 [Filters]

@@ -1,7 +1,7 @@
 # Andi Chandler <andi@gowling.com>, 2016. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: glance_store 0.13.1.dev57\n"
+"Project-Id-Version: subject_store 0.13.1.dev57\n"
 "Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
 "POT-Creation-Date: 2016-07-01 12:05+0000\n"
 "MIME-Version: 1.0\n"

@@ -6,7 +6,7 @@
 
 ZUUL_CLONER=/usr/zuul-env/bin/zuul-cloner
 BRANCH_NAME=master
-LIB_NAME=glance_store
+LIB_NAME=subject_store
 requirements_installed=$(echo "import openstack_requirements" | python 2>/dev/null ; echo $?)
 
 set -e

@@ -287,37 +287,37 @@ Related options:
 
 
 def get_root_helper():
-    return 'sudo subject-rootwrap %s' % CONF.glance_store.rootwrap_config
+    return 'sudo subject-rootwrap %s' % CONF.subject_store.rootwrap_config
 
 
 def is_user_overriden(conf):
-    return all([conf.glance_store.get('cinder_store_' + key)
+    return all([conf.subject_store.get('cinder_store_' + key)
                 for key in ['user_name', 'password',
                             'project_name', 'auth_address']])
 
 
 def get_cinderclient(conf, context=None):
-    glance_store = conf.glance_store
+    subject_store = conf.subject_store
     user_overriden = is_user_overriden(conf)
     if user_overriden:
-        username = glance_store.cinder_store_user_name
-        password = glance_store.cinder_store_password
-        project = glance_store.cinder_store_project_name
-        url = glance_store.cinder_store_auth_address
+        username = subject_store.cinder_store_user_name
+        password = subject_store.cinder_store_password
+        project = subject_store.cinder_store_project_name
+        url = subject_store.cinder_store_auth_address
     else:
         username = context.user
         password = context.auth_token
         project = context.tenant
 
-        if glance_store.cinder_endpoint_template:
-            url = glance_store.cinder_endpoint_template % context.to_dict()
+        if subject_store.cinder_endpoint_template:
+            url = subject_store.cinder_endpoint_template % context.to_dict()
         else:
-            info = glance_store.cinder_catalog_info
+            info = subject_store.cinder_catalog_info
             service_type, service_name, endpoint_type = info.split(':')
             sc = {'serviceCatalog': context.service_catalog}
             try:
                 url = keystone_sc.ServiceCatalogV2(sc).url_for(
-                    region_name=glance_store.cinder_os_region_name,
+                    region_name=subject_store.cinder_os_region_name,
                     service_type=service_type,
                     service_name=service_name,
                     endpoint_type=endpoint_type)
@@ -330,9 +330,9 @@ def get_cinderclient(conf, context=None):
                             password,
                             project,
                             auth_url=url,
-                            insecure=glance_store.cinder_api_insecure,
-                            retries=glance_store.cinder_http_retries,
-                            cacert=glance_store.cinder_ca_certificates_file)
+                            insecure=subject_store.cinder_api_insecure,
+                            retries=subject_store.cinder_http_retries,
+                            cacert=subject_store.cinder_ca_certificates_file)
 
     LOG.debug('Cinderclient connection created for user %(user)s using URL: '
               '%(url)s.', {'user': username, 'url': url})
@@ -423,7 +423,7 @@ class Store(subject_store.driver.Store):
 
     def _wait_volume_status(self, volume, status_transition, status_expected):
         max_recheck_wait = 15
-        timeout = self.conf.glance_store.cinder_state_transition_timeout
+        timeout = self.conf.subject_store.cinder_state_transition_timeout
         volume = volume.manager.get(volume.id)
         tries = 0
         elapsed = 0
@@ -628,7 +628,7 @@ class Store(subject_store.driver.Store):
             size_gb = 1
         name = "subject-%s" % subject_id
         owner = context.tenant
-        metadata = {'glance_subject_id': subject_id,
+        metadata = {'subject_subject_id': subject_id,
                     'subject_size': str(subject_size),
                     'subject_owner': owner}
         LOG.debug('Creating a new volume: subject_size=%d size_gb=%d',

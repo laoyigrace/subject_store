@@ -287,17 +287,17 @@ class Store(driver.Store):
         itself, it should raise `exceptions.BadStoreConfiguration`
         """
         try:
-            chunk = self.conf.glance_store.rbd_store_chunk_size
+            chunk = self.conf.subject_store.rbd_store_chunk_size
             self.chunk_size = chunk * units.Mi
             self.READ_CHUNKSIZE = self.chunk_size
             self.WRITE_CHUNKSIZE = self.READ_CHUNKSIZE
 
             # these must not be unicode since they will be passed to a
             # non-unicode-aware C library
-            self.pool = str(self.conf.glance_store.rbd_store_pool)
-            self.user = str(self.conf.glance_store.rbd_store_user)
-            self.conf_file = str(self.conf.glance_store.rbd_store_ceph_conf)
-            self.connect_timeout = self.conf.glance_store.rados_connect_timeout
+            self.pool = str(self.conf.subject_store.rbd_store_pool)
+            self.user = str(self.conf.subject_store.rbd_store_user)
+            self.conf_file = str(self.conf.subject_store.rbd_store_ceph_conf)
+            self.connect_timeout = self.conf.subject_store.rados_connect_timeout
         except cfg.ConfigFileValueError as e:
             reason = _("Error in store configuration: %s") % e
             LOG.error(reason)

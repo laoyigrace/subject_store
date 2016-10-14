@@ -54,7 +54,7 @@ LOG = logging.getLogger(__name__)
 
 CHUNKSIZE = 1024 * 64  # 64kB
 MAX_REDIRECTS = 5
-DEFAULT_STORE_IMAGE_DIR = '/openstack_glance'
+DEFAULT_STORE_IMAGE_DIR = '/openstack_subject'
 DS_URL_PREFIX = '/folder'
 STORE_SCHEME = 'vsphere'
 
@@ -158,7 +158,7 @@ The directory where the subject subjects will be stored in the datastore.
 This configuration option specifies the path to the directory where the
 subject subjects will be stored in the VMware datastore. If this option
 is not set,  the default directory where the subject subjects are stored
-is openstack_glance.
+is openstack_subject.
 
 Possible Values:
     * Any string that is a valid path to a directory
@@ -379,13 +379,13 @@ class Store(subject_store.Store):
         return (STORE_SCHEME,)
 
     def _sanity_check(self):
-        if self.conf.glance_store.vmware_api_retry_count <= 0:
+        if self.conf.subject_store.vmware_api_retry_count <= 0:
             msg = _('vmware_api_retry_count should be greater than zero')
             LOG.error(msg)
             raise exceptions.BadStoreConfiguration(
                 store_name='vmware_datastore', reason=msg)
 
-        if self.conf.glance_store.vmware_task_poll_interval <= 0:
+        if self.conf.subject_store.vmware_task_poll_interval <= 0:
             msg = _('vmware_task_poll_interval should be greater than zero')
             LOG.error(msg)
             raise exceptions.BadStoreConfiguration(
@@ -397,10 +397,10 @@ class Store(subject_store.Store):
         self.server_host = self._option_get('vmware_server_host')
         self.server_username = self._option_get('vmware_server_username')
         self.server_password = self._option_get('vmware_server_password')
-        self.api_retry_count = self.conf.glance_store.vmware_api_retry_count
-        self.tpoll_interval = self.conf.glance_store.vmware_task_poll_interval
-        self.ca_file = self.conf.glance_store.vmware_ca_file
-        self.api_insecure = self.conf.glance_store.vmware_insecure
+        self.api_retry_count = self.conf.subject_store.vmware_api_retry_count
+        self.tpoll_interval = self.conf.subject_store.vmware_task_poll_interval
+        self.ca_file = self.conf.subject_store.vmware_ca_file
+        self.api_insecure = self.conf.subject_store.vmware_insecure
         if api is None:
             msg = _("Missing dependencies: oslo_vmware")
             raise exceptions.BadStoreConfiguration(
@@ -496,7 +496,7 @@ class Store(subject_store.Store):
     def configure_add(self):
         datastores = self._option_get('vmware_datastores')
         self.datastores = self._build_datastore_weighted_map(datastores)
-        self.store_subject_dir = self.conf.glance_store.vmware_store_subject_dir
+        self.store_subject_dir = self.conf.subject_store.vmware_store_subject_dir
 
     def select_datastore(self, subject_size):
         """Select a datastore with free space larger than subject size."""
@@ -517,7 +517,7 @@ class Store(subject_store.Store):
         raise exceptions.StorageFull()
 
     def _option_get(self, param):
-        result = getattr(self.conf.glance_store, param)
+        result = getattr(self.conf.subject_store, param)
         if not result:
             reason = (_("Could not find %(param)s in configuration "
                         "options.") % {'param': param})

@@ -131,7 +131,7 @@ function run_tests {
   set +e
   testrargs=`echo "$testrargs" | sed -e's/^\s*\(.*\)\s*$/\1/'`
   TESTRTESTS="$TESTRTESTS --testr-args='--subunit --concurrency $concurrency $testropts $testrargs'"
-  if [ setup.cfg -nt glance_store.egg-info/entry_points.txt ]
+  if [ setup.cfg -nt subject_store.egg-info/entry_points.txt ]
   then
     ${wrapper} python setup.py egg_info
   fi

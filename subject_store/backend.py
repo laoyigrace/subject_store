@@ -240,7 +240,7 @@ def _load_store(conf, store_entry, invoke_load=True):
 
 
 def _load_stores(conf):
-    for store_entry in set(conf.glance_store.stores):
+    for store_entry in set(conf.subject_store.stores):
         try:
             # FIXME(flaper87): Don't hide BadStoreConfiguration
             # exceptions. These exceptions should be propagated
@@ -292,7 +292,7 @@ def create_stores(conf=CONF):
 
 
 def verify_default_store():
-    scheme = CONF.glance_store.default_store
+    scheme = CONF.subject_store.default_store
     try:
         get_store_from_scheme(scheme)
     except exceptions.UnknownScheme:

@@ -236,8 +236,8 @@ class StoreLocation(subject_store.location.StoreLocation):
         # This is used for backwards compatibility.
         else:
             self.subject = pieces[0]
-            self.port = self.conf.glance_store.sheepdog_store_port
-            self.addr = self.conf.glance_store.sheepdog_store_address
+            self.port = self.conf.subject_store.sheepdog_store_port
+            self.addr = self.conf.subject_store.sheepdog_store_address
 
 
 class SubjectIterator(object):
@@ -279,13 +279,13 @@ class Store(subject_store.driver.Store):
         """
 
         try:
-            chunk_size = self.conf.glance_store.sheepdog_store_chunk_size
+            chunk_size = self.conf.subject_store.sheepdog_store_chunk_size
             self.chunk_size = chunk_size * units.Mi
             self.READ_CHUNKSIZE = self.chunk_size
             self.WRITE_CHUNKSIZE = self.READ_CHUNKSIZE
 
-            self.addr = self.conf.glance_store.sheepdog_store_address
-            self.port = self.conf.glance_store.sheepdog_store_port
+            self.addr = self.conf.subject_store.sheepdog_store_address
+            self.port = self.conf.subject_store.sheepdog_store_port
         except cfg.ConfigFileValueError as e:
             reason = _("Error in store configuration: %s") % e
             LOG.error(reason)

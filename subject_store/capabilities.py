@@ -171,7 +171,7 @@ def _schedule_capabilities_update(store):
         # NOTE(zhiyan): We don't need to lock 'latest_update'
         # field for check since time increased one-way only.
         sec = (int(time.time()) - context['latest_update'] -
-               store.conf.glance_store.store_capabilities_update_min_interval)
+               store.conf.subject_store.store_capabilities_update_min_interval)
         if sec >= 0:
             if not context['updating']:
                 # NOTE(zhiyan): Using a real thread pool instead
@@ -188,7 +188,7 @@ def check(store_op_fun):
     def op_checker(store, *args, **kwargs):
         # NOTE(zhiyan): Trigger the hook of updating store
         # dynamic capabilities based on current store status.
-        if store.conf.glance_store.store_capabilities_update_min_interval > 0:
+        if store.conf.subject_store.store_capabilities_update_min_interval > 0:
             _schedule_capabilities_update(store)
 
         get_capabilities = [

@@ -1,6 +1,6 @@
-# Translations template for glance_store.
+# Translations template for subject_store.
 # Copyright (C) 2015 ORGANIZATION
-# This file is distributed under the same license as the glance_store
+# This file is distributed under the same license as the subject_store
 # project.
 #
 # Translators:
@@ -8,7 +8,7 @@
 # Andreas Jaeger <jaegerandi@gmail.com>, 2016. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: glance_store 0.13.1.dev25\n"
+"Project-Id-Version: subject_store 0.13.1.dev25\n"
 "Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
 "POT-Creation-Date: 2016-04-20 16:13+0000\n"
 "MIME-Version: 1.0\n"

@@ -10,9 +10,9 @@ below the table of supported drivers and maintainers:
 +-------------------+---------------------+------------------------------------+------------------+
 | Driver            |     Maintainer      |        Email                       |     IRC Nick     |
 +===================+=====================+====================================+==================+
-| File System       |     Glance Team     |  openstack-dev@lists.openstack.org | openstack-glance |
+| File System       |     Glance Team     |  openstack-dev@lists.openstack.org | openstack-subject |
 +-------------------+---------------------+------------------------------------+------------------+
-| HTTP              |     Glance Team     |  openstack-dev@lists.openstack.org | openstack-glance |
+| HTTP              |     Glance Team     |  openstack-dev@lists.openstack.org | openstack-subject |
 +-------------------+---------------------+------------------------------------+------------------+
 | RBD               |    Fei Long Wang    |  flwang@catalyst.net.nz            |   flwang         |
 +-------------------+---------------------+------------------------------------+------------------+
